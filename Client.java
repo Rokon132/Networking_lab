@@ -3,6 +3,7 @@
 import java.net.*;
 import java.util.Scanner;
 import java.io.*;
+import java.util.Random ;
 
 public class Client {
     // initialize socket and input output streams
@@ -42,49 +43,76 @@ public class Client {
         // input terminal theke na niye direct ekhan theke pathacci
         
 
-        // Scanner sc = new Scanner(System.in) ;
-        // line = sc.nextLine() ;
+        Scanner sc = new Scanner(System.in) ;
+       
 
-        line = "withdraw 2000" ;
+        System.out.println("Perform withdraw operation ") ;
+        line = sc.nextLine() ;
          message_from_server = "Transaction failure" ;
 
          long start_time  = System.currentTimeMillis() ;
-
+        int ct = 0 ;
         while (message_from_server.equals("Transaction failure")) {
             try {
+                
+                Random random = new Random() ;
+                int randomNumber = random.nextInt(10)+1 ;
+                if(randomNumber >4 && randomNumber<8)
+                {
+                    System.out.println("error withdraw message reached to destination ");
+                }
+                else
+                {
+                    out.writeUTF(line) ;
+                    message_from_server = input_server.readUTF();
+                    System.out.println("Response from server : " + message_from_server);
+                }
+
             
-                out.writeUTF(line) ;
-                message_from_server = input_server.readUTF();
-                System.out.println("Response from server : " + message_from_server);
+               ct++ ;
                
             } catch (IOException i) {
                 System.out.println(i);
             }
         }
         long end_time = System.currentTimeMillis() ;
-        System.out.println("withdraw operation will take time " + (end_time - start_time));
+        System.out.println("withdraw operation will take time " + (end_time - start_time) + "  number of try : " + ct);
 
 
 
 
-        line = "deposit 1000" ;
+        System.out.println("perform deposite operation : ") ;
+        line = sc.nextLine() ;
         message_from_server = "deposite failure" ;
 
         start_time  = System.currentTimeMillis() ;
+        ct = 0 ;
 
        while (message_from_server.equals("deposite failure")) {
            try {
-           
-               out.writeUTF(line) ;
-               message_from_server = input_server.readUTF();
-               System.out.println("Response from server : " + message_from_server);
+
+                Random random = new Random() ;
+                int randomNumber = random.nextInt(10) +1;
+                if(randomNumber >4 && randomNumber<8)
+                {
+                    System.out.println("error deposite message to destination ") ;
+                }
+                else
+                {
+                    out.writeUTF(line) ;
+                    message_from_server = input_server.readUTF();
+                    System.out.println("Response from server : " + message_from_server);
+
+                }
+                ct++ ;
+               
               
            } catch (IOException i) {
                System.out.println(i);
            }
        }
        end_time = System.currentTimeMillis() ;
-       System.out.println("deposite operation will take time " + (end_time - start_time));
+       System.out.println("deposite operation will take time " + (end_time - start_time) + " number of try " + ct);
 
 
         // close the connection

@@ -62,9 +62,11 @@ public class Server {
             // reads message from client until "Over" is sent
 
             // start time : 
+        
             long start_time = System.currentTimeMillis() ;
             while (!line.equals("Over")) {
                 try {
+                    
                     line = in.readUTF();
                     System.out.println("message from client: " + line);
 
@@ -99,10 +101,10 @@ public class Server {
 
                         Random random = new Random() ;
 
-                        int randomNumber = random.nextInt(10)  ;
+                        int randomNumber = random.nextInt(10)+1  ;
                         int number = Integer.parseInt(operand);
 
-                        if(randomNumber>4)
+                        if(randomNumber>4 && randomNumber<8)
                         {
                             line="Transaction failure";
 
@@ -114,21 +116,26 @@ public class Server {
                             } else {
                                 line = "You donot have sufficient balanace to withdraw";
                             }
-                            success = true ;
+                            // success = true ;
                        }
                     } else if (operation.equals("deposit")) {
                         int number = Integer.parseInt(operand);
 
                         Random random = new Random() ;
 
-                        int randomNumber = random.nextInt(10)  ;
+                        int randomNumber = random.nextInt(10)+1  ;
 
-                        if(randomNumber>4)
+                        if(randomNumber>4 && randomNumber<8)
                         {
                             line = "deposite failure" ;
                         }
-                        account_balance = account_balance + number;
-                        line = number + " has been deposited to your account. Your current balance is " + account_balance;
+                        else
+                        {
+                            account_balance = account_balance + number;
+                            line = number + " has been deposited to your account. Your current balance is " + account_balance;
+                            success = true ;
+                        }
+                      
                     }
                     out.writeUTF(line);
                     if(success)break ;
@@ -142,7 +149,7 @@ public class Server {
 
             long end_time = System.currentTimeMillis() ;
 
-            System.out.println(end_time - start_time) ;
+            // System.out.println(end_time - start_time) ;
 
 
             System.out.println("Closing connection");
